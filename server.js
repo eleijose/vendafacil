@@ -10,21 +10,21 @@ app.post("/gerar", async (req, res) => {
   const { produto, publico, estilo } = req.body;
 
   const prompt = `
-Crie um anúncio de vendas para:
+Crie um anÃºncio de vendas para:
 Produto: ${produto}
-Público: ${publico}
+PÃºblico: ${publico}
 Estilo: ${estilo}
 
 Inclua:
-- Título chamativo
-- Descrição persuasiva
-- Chamada para ação
+- TÃ­tulo chamativo
+- DescriÃ§Ã£o persuasiva
+- Chamada para aÃ§Ã£o
 `;
 
   const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
     headers: {
-      "Authorization": `Bearer SUA_API_KEY`,
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
