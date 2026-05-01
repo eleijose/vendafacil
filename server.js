@@ -21,24 +21,30 @@ Inclua:
 - Chamada para ação
 `;
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "gpt-5.3",
-      input: prompt
-    })
-  });
+  try {
+    const response = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "gpt-5.3",
+        input: prompt
+      })
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  res.json({
-    resultado: data.output[0].content[0].text
-  });
+    res.json({
+      resultado: data.output[0].content[0].text
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao gerar resposta");
+  }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Servidor rodando"));
+app.listen(PORT, () => console.log("Servidor rodando na porta " + PORT));
